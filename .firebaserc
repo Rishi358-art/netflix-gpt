@@ -1,0 +1,16 @@
+{
+  "projects": {
+    "default": "netflix-gpt-3f8ab"
+  },
+  "targets": {
+    "netflix-gpt-3f8ab": {
+      "hosting": {
+        "temp": [
+          "netflix-gpt-temp",
+          "netflix-gpt-temp-rishi"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

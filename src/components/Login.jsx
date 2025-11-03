@@ -1,28 +1,106 @@
 import { Link } from "react-router-dom";
 import Header from "./Header";
-import { useState } from "react";
-
+import { useState,useRef } from "react";
+import emailvalidate from "../utils/emailvalidate";
+import {emailRegVal} from "../utils/emailRegVal";
+import { auth } from "../utils/firebase";
+import { updateProfile, createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userslice";
 const Login=()=>{
     const [signIn,setSignIn]=useState(true);
+    const [errMsg,setErrMsg]=useState(null);
+    const dispatch=useDispatch();
+      const userinfo=useSelector((state)=>state.user);
     const toggleSignIn=()=>{
        setSignIn(!signIn);
     };
+    const email=useRef(null);
+    const password=useRef(null);
+    const fullName=useRef(null);
+    const confirmPass=useRef(null);
+    const navigate=useNavigate();
+    
+    const handleValidateClick=async ()=>{
+      
+     let message;
+    if(signIn){
+     message=emailvalidate(email.current.value,password.current.value);
+    
+    }
+    else{
+     message=emailRegVal(email.current.value,password.current.value,fullName.current.value,confirmPass.current.value);
+   
+    }
+    
+      setErrMsg(message);
+      if(message)
+      {
+        return ;
+      }
+     if (!signIn) {
+  createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
+  .then(async (userCredential) => {
+    const user = userCredential.user;
+    return await updateProfile(user, {
+      displayName: fullName.current.value,
+    }).then(() => {
+      const { uid, email, displayName } = auth.currentUser; // renamed email
+      dispatch(addUser({ uid:uid, email:email, displayName:displayName }));
+      console.log("Registered User:", auth.currentUser);
+      navigate("/browse");
+    });
+  })
+  .catch((error) => {
+    console.log("❌", error.code, "-", error.message);
+  });
+
+}
+
+      
+      else
+      {
+        signInWithEmailAndPassword(auth, email.current.value, password.current.value)
+      .then((userCredential) => {
+        // User successfully signed in
+        const user = userCredential.user;
+        console.log("User signed in:", user);
+        // Redirect or update UI
+        
+         console.log("redux -",userinfo);
+
+      })
+      .then(()=>{
+         navigate("/browse")  ; 
+      }
+      )
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        setErrMsg("Invalid  Credentials");
+        // Display error message to the user
+      });
+      }
+    }
     return(
-        <div className="relative overflow-hidden">
+       <div className="relative w-full h-full overflow-hidden">
             <Header/>
             <div>
-               <img className="scale-105 object-cover w-full h-full z-0" src="https://assets.nflxext.com/ffe/siteui/vlv3/9ba9f0e2-b246-47f4-bd1f-3e84c23a5db8/web/IN-en-20251020-TRIFECTA-perspective_d6da84e9-6145-4b1e-bb51-e402c966a045_large.jpg"
+               <img className="block  lg:scale-105 object-cover w-full h-full z-0" src="https://assets.nflxext.com/ffe/siteui/vlv3/9ba9f0e2-b246-47f4-bd1f-3e84c23a5db8/web/IN-en-20251020-TRIFECTA-perspective_d6da84e9-6145-4b1e-bb51-e402c966a045_large.jpg"
              alt="Logo" />
             </div>
-           <div className="absolute w-[480px] h-[670px] flex  inset-0 bg-black/80 justify-center pt-7 pb-12 top-[100px] left-[520px] rounder-sm">
+           <div className="absolute sm:w-full md:w-[400px] lg:w-[480px] h-[670px] flex  inset-0 bg-black/80 justify-center pt-7 pb-12 top-[100px] mx-auto rounder-sm">
             
-             <form className="flex flex-col gap-y-[17px] w-[370px]  p-2.5">
-                <h1 className="font-bold text-[32px] text-white">{(signIn) ? "Sign In" : "Sign Up"}</h1>
-                                {!signIn && <input className="border border-gray-300 rounded-sm text-[17px] text-gray-300 inset-0 bg-gray-950/30 px-3 py-3.5" placeholder="Full Name"/>}
-                <input className="border border-gray-300 rounded-sm text-[17px] text-gray-300 inset-0 bg-gray-950/30 px-3 py-3.5" placeholder="E-mail or Mobile number"/>
-                 <input className="border  border-gray-300 rounded-sm text-[17px] text-gray-300 inset-0 bg-gray-950/30 px-3 py-3.5" placeholder="Password"/>
-                  {!signIn && <input className="border  border-gray-300 rounded-sm text-[17px] text-gray-300 inset-0 bg-gray-950/30 px-3 py-3.5" placeholder="Confirm Password"/>}
-                <button type="button" className="border border-black bg-red-600  text-white  rounded-md text-[16px] font-bold  p-2" >{(signIn) ? "Sign In" : "Register"}</button>
+             <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-y-[17px] w-[80%]  p-2.5">
+                <h1 className="font-bold text-[25px] lg:text-[32px] text-white">{(signIn) ? "Sign In" : "Sign Up"}</h1>
+                 {!signIn && <input ref={fullName} className="border border-gray-300 rounded-sm text-[17px] text-gray-300 inset-0 bg-gray-950/30 px-3 py-3.5" placeholder="Full Name"/>}
+                <input ref={email} className="border border-gray-300 rounded-sm text-[17px] text-gray-300 inset-0 bg-gray-950/30 px-3 py-3.5" placeholder="E-mail or Mobile number"/>
+                 <input ref={password} className="border  border-gray-300 rounded-sm text-[17px] text-gray-300 inset-0 bg-gray-950/30 px-3 py-3.5" placeholder="Password"/>
+                  {!signIn && <input ref={confirmPass} className="border  border-gray-300 rounded-sm text-[17px] text-gray-300 inset-0 bg-gray-950/30 px-3 py-3.5" placeholder="Confirm Password"/>}
+                   {errMsg && <p className="text-red-600 text-[12px] font-bold">{errMsg}</p>}
+                <button type="button" className="border border-black bg-red-600  text-white  rounded-md text-[16px] font-bold  p-2" onClick={handleValidateClick}>{(signIn) ? "Sign In" : "Register"}</button>
                 {!signIn && <span><button className="border border-black   bg-white/20 text-white  rounded-md text-[16px] font-bold  p-2" onClick={toggleSignIn} >Back to Login</button></span>}
                 
                   {

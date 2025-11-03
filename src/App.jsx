@@ -1,13 +1,15 @@
 import Body from './components/Body'
 
 import './App.css'
+import { Provider } from 'react-redux'
+import  appStore from './utils/Appstore'
 
 function App() {
 
 
   return (
     <>
-      <Body/>
+     <Provider store={appStore}><Body/></Provider> 
     </>
   )
 }
