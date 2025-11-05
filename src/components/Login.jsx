@@ -50,7 +50,7 @@ const Login=()=>{
     }).then(() => {
       const { uid, email, displayName } = auth.currentUser; // renamed email
       dispatch(addUser({ uid:uid, email:email, displayName:displayName }));
-      console.log("Registered User:", auth.currentUser);
+     
      
     });
   })
@@ -67,10 +67,9 @@ const Login=()=>{
       .then((userCredential) => {
         // User successfully signed in
         const user = userCredential.user;
-        console.log("User signed in:", user);
+     
         // Redirect or update UI
-        
-         console.log("redux -",userinfo);
+      
 
       })
       .then(()=>{

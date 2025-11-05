@@ -2,7 +2,7 @@ import React from 'react'
 
 const VideoTitle = ({title,overview}) => {
   return (
-    <div className="absolute flex flex-col  gap-4 top-[55%] left-[10%] bg-linear-to-r z-10 from-black/20">
+    <div className="absolute flex flex-col  gap-4 top-[50%] left-[10%] bg-linear-to-r z-10 from-black/20">
         <h1 className="text-3xl text-white font-bold">{title}</h1>
         <p className="w-[600px] text-white text-justify">{overview}</p>
         <div className="flex gap-2.5">
