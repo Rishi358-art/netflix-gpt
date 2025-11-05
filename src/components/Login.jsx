@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userslice";
+import { BACK_GROUND } from "../utils/constants";
 const Login=()=>{
     const [signIn,setSignIn]=useState(true);
     const [errMsg,setErrMsg]=useState(null);
@@ -50,7 +51,7 @@ const Login=()=>{
       const { uid, email, displayName } = auth.currentUser; // renamed email
       dispatch(addUser({ uid:uid, email:email, displayName:displayName }));
       console.log("Registered User:", auth.currentUser);
-      navigate("/browse");
+     
     });
   })
   .catch((error) => {
@@ -73,7 +74,7 @@ const Login=()=>{
 
       })
       .then(()=>{
-         navigate("/browse")  ; 
+       
       }
       )
       .catch((error) => {
@@ -88,7 +89,7 @@ const Login=()=>{
        <div className="relative w-full h-full overflow-hidden">
             <Header/>
             <div>
-               <img className="block  lg:scale-105 object-cover w-full h-full z-0" src="https://assets.nflxext.com/ffe/siteui/vlv3/9ba9f0e2-b246-47f4-bd1f-3e84c23a5db8/web/IN-en-20251020-TRIFECTA-perspective_d6da84e9-6145-4b1e-bb51-e402c966a045_large.jpg"
+               <img className="block  lg:scale-105 object-cover w-full h-full z-0" src={BACK_GROUND}
              alt="Logo" />
             </div>
            <div className="absolute sm:w-full md:w-[400px] lg:w-[480px] h-[670px] flex  inset-0 bg-black/80 justify-center pt-7 pb-12 top-[100px] mx-auto rounder-sm">
