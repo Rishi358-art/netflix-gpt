@@ -12,8 +12,8 @@ const MainContainer = () => {
     <div className=" h-[720px] w-full  ">
         <VideoTitle title={original_title} overview={overview}/>
         <VideoBackGround video={id}/>
-        <div className="w-full h-[300px] absolute bottom-0 bg-linear-to-t from-black"></div>
-        <div className="w-[400px] h-full absolute top-0 left-0 bg-linear-to-r from-black"></div>
+        <div className="w-full h-[300px] absolute  lg:bottom-0 bg-linear-to-t from-black"></div>
+        <div className="w-[10%] lg:w-[400px] hidden lg:h-full absolute top-0 left-0 bg-linear-to-r from-black"></div>
     </div>
   )
 }

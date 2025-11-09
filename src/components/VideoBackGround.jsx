@@ -9,8 +9,8 @@ const VideoBackGround = ({video}) => {
    useMovieTrailer(video);
     
   return (
-    <div className="w-full h-full overflow-hidden">
-        <iframe  className="w-full h-full z-0 scale-135  aspect-video pointer-events-none"
+    <div className=":mt-0 w-full h-full overflow-hidden">
+        <iframe  className="w-full h-full z-0 scale-y-330 lg:scale-135  aspect-video pointer-events-none"
     
      src={`https://www.youtube.com/embed/${trailerId?.key}?autoplay=1&mute=1&controls=0&loop=1&playlist=${trailerId?.key}&rel=0`}
 

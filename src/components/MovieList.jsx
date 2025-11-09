@@ -2,7 +2,7 @@ import React from 'react'
 import MovieCard from './MovieCard'
 
 const MovieList = ({title,movies}) => {
-   
+  if (!movies || movies.length === 0) return null;
     
   return (
     <div>
@@ -11,7 +11,7 @@ const MovieList = ({title,movies}) => {
             <div className="flex overflow-x-scroll scrollbar-hide"> 
                 <div className="flex ">
                  {
-                   movies?.length > 1 && movies.map((movie)=>(<MovieCard key={movie.id} poster_path={movie.poster_path} />))
+                   movies?.length >= 1 && movies.map((movie)=>(<MovieCard key={movie.id} poster_path={movie.poster_path} />))
                  }
                </div>
                  <style>

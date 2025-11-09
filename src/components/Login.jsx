@@ -88,10 +88,10 @@ const Login=()=>{
        <div className="relative w-full h-full overflow-hidden">
             <Header/>
             <div>
-               <img className="block  lg:scale-105 object-cover w-full h-full z-0" src={BACK_GROUND}
+               <img className="block lg:scale-105 object-cover w-full min-h-screen z-0" src={BACK_GROUND}
              alt="Logo" />
             </div>
-           <div className="absolute sm:w-full md:w-[400px] lg:w-[480px] h-[670px] flex  inset-0 bg-black/80 justify-center pt-7 pb-12 top-[100px] mx-auto rounder-sm">
+           <div className="absolute sm:w-full md:w-[400px] lg:w-[480px] h-[670px] flex  inset-0 bg-black/80 justify-center pt-7 pb-12 top-[100px] mx-auto rounded-sm">
             
              <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-y-[17px] w-[80%]  p-2.5">
                 <h1 className="font-bold text-[25px] lg:text-[32px] text-white">{(signIn) ? "Sign In" : "Sign Up"}</h1>
