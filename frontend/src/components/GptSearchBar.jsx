@@ -19,11 +19,23 @@ const GptSearchBar = () => {
     
     const prompt="Act as a movie recommendation system and suggest some movies for the query : "+searchText.current.value+
     ". only give me the 5 movies ,comma seperated like the example: sholay ,gadar ,golmaal,ghayal,deewar and between the examples only give comma not space and in movie titles dont add spaces give me like 'the dark knight,the batman begins,batman,the batman' just like like no spaces before and after only space should be to seperate words in titles between and all titles must be seperated by , comma not space and if i give you the specific movie name (with year or  without ) then put that movie name first and then others";
-    const response = await ai.models.generateContent({
-    model: 'gemini-2.5-flash', 
-    contents: prompt, // This is the final string with the genre inserted
-  });
-const gptMovies=response.text.split(",");
+//     const response = await ai.models.generateContent({
+//     model: 'gemini-2.5-flash', 
+//     contents: prompt, // This is the final string with the genre inserted
+//   });
+// const gptMovies=response.text.split(",");
+// Replace 'https://your-backend-url.onrender.com/gpt-search' with your actual backend URL
+const res = await fetch("https://your-backend-url.onrender.com/gpt-search", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({ prompt }),
+});
+
+const data = await res.json();   // data.text contains GPT response
+const gptMovies = data.text.split(",");
+
 console.log(gptMovies);
 const promiseArray=gptMovies.map((movie)=>searchMovieTMDB(movie));
 const tmdbResults=await Promise.all(promiseArray);
