@@ -25,7 +25,7 @@ const GptSearchBar = () => {
 //   });
 // const gptMovies=response.text.split(",");
 // Replace 'https://your-backend-url.onrender.com/gpt-search' with your actual backend URL
-const res = await fetch("https://your-backend-url.onrender.com/gpt-search", {
+const res = await fetch("https://netflix-gpt-back.onrender.com/gpt-search", {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
